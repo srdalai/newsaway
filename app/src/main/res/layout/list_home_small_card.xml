@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:elevation="12dp"
+        app:cardElevation="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="140dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent">
+
+                <ImageView
+                    android:id="@+id/articleImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/sourceChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Soucre"
+                    android:visibility="visible"
+                    app:textEndPadding="30dp"
+                    app:textStartPadding="30dp" />
+
+                <TextView
+                    android:id="@+id/txtCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="TextView"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:layout_weight="1"
+                    android:ellipsize="marquee"
+                    android:gravity="center_vertical"
+                    android:justificationMode="inter_word"
+                    android:maxLines="3"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="right|end"
+                    android:singleLine="true"
+                    android:text="TextView" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
