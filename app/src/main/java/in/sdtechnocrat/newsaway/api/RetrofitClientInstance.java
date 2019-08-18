@@ -18,4 +18,12 @@ public class RetrofitClientInstance {
         }
         return retrofit;
     }
+
+    public static Retrofit getRetrofitInstanceForUrl(String baseUrl) {
+            retrofit = new retrofit2.Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        return retrofit;
+    }
 }

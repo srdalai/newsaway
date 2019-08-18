@@ -1,6 +1,9 @@
 package in.sdtechnocrat.newsaway.api;
 
+import java.util.ArrayList;
+
 import in.sdtechnocrat.newsaway.model.ApiData;
+import in.sdtechnocrat.newsaway.model.Country;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -66,4 +69,10 @@ public interface GetDataService {
      */
     @GET("sources")
     Call<ApiData> getSourcesByLangCountry(@Query("apiKey") String apiKey, @Query("language") String language, @Query("country") String country);
+
+    /*
+        Get country data
+     */
+    @GET("all")
+    Call<ArrayList<Country>> getAllCountries();
 }

@@ -41,25 +41,31 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
+                Fragment fragment = null;
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
                 switch (item.getItemId()) {
                     case R.id.home:
-                        fragment = new HomeFragment();
-                        loadFragment(fragment);
-                        return true;
+                        if (!(currentFragment instanceof HomeFragment)) {
+                            fragment = new HomeFragment();
+                        }
+                        break;
                     case R.id.reads:
-                        fragment = new ReadsFragment();
-                        loadFragment(fragment);
-                        return true;
+                        if (!(currentFragment instanceof ReadsFragment)) {
+                            fragment = new ReadsFragment();
+                        }
+                        break;
                     case R.id.bookmarks:
-                        fragment = new BookmarkFragment();
-                        loadFragment(fragment);
-                        return true;
+                        if (!(currentFragment instanceof BookmarkFragment)) {
+                            fragment = new BookmarkFragment();
+                        }
+                        break;
                     case R.id.profile:
-                        fragment = new ProfileFragment();
-                        loadFragment(fragment);
-                        return true;
+                        if (!(currentFragment instanceof ProfileFragment)) {
+                            fragment = new ProfileFragment();
+                        }
+                        break;
                 }
+                loadFragment(fragment);
                 return true;
             }
         });
@@ -71,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
     }
 
