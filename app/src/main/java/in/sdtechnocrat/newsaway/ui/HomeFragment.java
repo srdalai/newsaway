@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import in.sdtechnocrat.newsaway.R;
 import in.sdtechnocrat.newsaway.adapters.HomeCategoryAdapter;
@@ -35,6 +36,7 @@ import in.sdtechnocrat.newsaway.model.ApiData;
 import in.sdtechnocrat.newsaway.model.Article;
 import in.sdtechnocrat.newsaway.model.Category;
 import in.sdtechnocrat.newsaway.utils.DatabaseHelper;
+import in.sdtechnocrat.newsaway.utils.PreferenceManager;
 import in.sdtechnocrat.newsaway.utils.RecyclerTouchListener;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,8 +54,9 @@ import static in.sdtechnocrat.newsaway.utils.Utilities.STATUS_OK;
  */
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = HomeFragment.class.getSimpleName();
     ProgressDialog progressDoalog;
-    Retrofit retrofitClient = RetrofitClientInstance.getRetrofitInstance();
+    Retrofit retrofitClient;
     GetDataService getDataService;
     RecyclerView trendingRecycler;
     ArrayList<Article> articles = new ArrayList<>();
@@ -66,6 +69,7 @@ public class HomeFragment extends Fragment {
     HomeLargeCardAdapter homeLargeCardAdapter;
     String category = "general";
     DatabaseHelper databaseHelper;
+    PreferenceManager preferenceManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +82,7 @@ public class HomeFragment extends Fragment {
         bigStoryRecycler = rootView.findViewById(R.id.bigStoryRecycler);
 
         databaseHelper = new DatabaseHelper(requireContext());
+        preferenceManager = new PreferenceManager(requireContext());
 
         /*homeCategoryAdapter = new HomeCategoryAdapter(requireContext(), articles);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false);
@@ -119,6 +124,7 @@ public class HomeFragment extends Fragment {
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
 
+        retrofitClient = RetrofitClientInstance.getRetrofitInstance();
         getDataService = retrofitClient.create(GetDataService.class);
 
         prepareCategories();
@@ -128,12 +134,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareBigStory() {
+        String country_code = preferenceManager.getCountryCode().toLowerCase(Locale.getDefault());
         bigStoryRecycler.invalidate();
         bigStoryArticles = new ArrayList<>();
-        Call<ApiData> call = getDataService.getHeadlinesByCategory(API_KEY, "in", category);
+        Call<ApiData> call = getDataService.getHeadlinesByCategory(API_KEY, country_code, category);
         call.enqueue(new Callback<ApiData>() {
             @Override
             public void onResponse(Call<ApiData> call, Response<ApiData> response) {
+                Log.d(TAG, "onResponse: => "+response.raw());
                 progressDoalog.dismiss();
                 if (response.body().getStatus().equals(STATUS_OK)) {
                     bigStoryArticles = response.body().getArticles();

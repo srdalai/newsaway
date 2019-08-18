@@ -2,9 +2,7 @@ package in.sdtechnocrat.newsaway.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +15,7 @@ import in.sdtechnocrat.newsaway.api.RetrofitClientInstance;
 import in.sdtechnocrat.newsaway.model.ApiData;
 import in.sdtechnocrat.newsaway.model.Source;
 import in.sdtechnocrat.newsaway.utils.DatabaseHelper;
+import in.sdtechnocrat.newsaway.utils.PreferenceManager;
 import in.sdtechnocrat.newsaway.utils.Utilities;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +51,12 @@ public class SplashScreen extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(SplashScreen.this, ConfigActivity.class));
+
+                    Intent intent = new Intent(SplashScreen.this, ConfigActivity.class);
+                    if (preferenceManager.isCountrySet()) {
+                        intent = new Intent(SplashScreen.this, MainActivity.class);
+                    }
+                    startActivity(intent);
                     finish();
                 }
             }, 3000);

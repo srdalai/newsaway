@@ -7,23 +7,26 @@ import static in.sdtechnocrat.newsaway.utils.Utilities.BASE_URL;
 
 public class RetrofitClientInstance {
 
-    private static Retrofit retrofit;
+    private static Retrofit singleRetrofit;
+    private static Retrofit defaultRetrofit;
 
     public static Retrofit getRetrofitInstance() {
-        if (retrofit == null) {
-            retrofit = new retrofit2.Retrofit.Builder()
+        if (defaultRetrofit == null) {
+            defaultRetrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit;
+        return defaultRetrofit;
     }
 
     public static Retrofit getRetrofitInstanceForUrl(String baseUrl) {
-            retrofit = new retrofit2.Retrofit.Builder()
+        if (singleRetrofit == null) {
+            singleRetrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-        return retrofit;
+        }
+        return singleRetrofit;
     }
 }
